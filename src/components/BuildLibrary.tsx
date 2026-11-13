@@ -112,35 +112,30 @@ export const BuildLibrary: React.FC<BuildLibraryProps> = ({
             const score = calculateBuildScore(weapon, arcana, relics);
 
             return (
-              <div
+              <article
                 key={build.id}
-                className="rounded-2xl gothic-border-card p-6 flex flex-col justify-between border-gold-accent/25 hover:border-gold-accent/60 transition-all"
+                className="build-equipment-card gothic-border-card"
               >
-                <ItemArtwork
-                  itemId={weapon.id}
-                  title={weapon.name}
-                  iconType={weapon.iconType}
-                />
-                <div className="build-equipment-strip" aria-label="Equipamentos desta build">
-                  <figure>
-                    <ItemArtwork itemId={arcana.id} title={arcana.spellName} iconType={arcana.iconType} />
-                    <figcaption>ARCANA · {arcana.spellName}</figcaption>
-                  </figure>
-                  {relics.map(relic => (
-                    <figure key={relic.id}>
-                      <ItemArtwork itemId={relic.id} title={relic.name} iconType={relic.iconType} />
-                      <figcaption>RELÍQUIA · {relic.name}</figcaption>
-                    </figure>
-                  ))}
+                <div className="build-equipment-card__art-trigger">
+                  <span className="build-equipment-card__art-index" aria-hidden="true">
+                    ARMA / {build.code.replace(/\D/g, '').padStart(2, '0')}
+                  </span>
+                  <ItemArtwork
+                    itemId={weapon.id}
+                    title={weapon.name}
+                    iconType={weapon.iconType}
+                    className="build-equipment-card__artwork"
+                  />
                 </div>
-                <div>
+
+                <div className="build-equipment-card__body">
                   {/* Topo */}
-                  <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-xs font-mono text-blood-400 font-bold uppercase tracking-wider mb-1">
+                      <div className="build-equipment-card__eyebrow">
                         {build.code} • {build.playstyle}
                       </div>
-                      <h3 className="font-serif text-lg font-bold text-white tracking-wide">
+                      <h3 className="build-equipment-card__title">
                         {build.title}
                       </h3>
                     </div>
@@ -148,7 +143,7 @@ export const BuildLibrary: React.FC<BuildLibraryProps> = ({
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => handleShare(build.weaponId, build.arcanaId, build.relicIds, build.id)}
-                        className="p-1.5 rounded-lg text-neutral-400 hover:text-gold-accent hover:bg-gothic-800 transition-colors"
+                        className="build-equipment-card__action"
                         title="Copiar link compartilhável desta build"
                       >
                         <Share2 className="w-4 h-4" />
@@ -162,12 +157,25 @@ export const BuildLibrary: React.FC<BuildLibraryProps> = ({
                     </div>
                   )}
 
-                  <p className="text-xs text-neutral-300 leading-relaxed mb-4">
+                  <p className="build-equipment-card__description">
                     {build.description}
                   </p>
 
+                  <div className="build-equipment-strip build-equipment-strip--compact" aria-label="Equipamentos desta build">
+                    <figure>
+                      <ItemArtwork itemId={arcana.id} title={arcana.spellName} iconType={arcana.iconType} />
+                      <figcaption>ARCANA · {arcana.spellName}</figcaption>
+                    </figure>
+                    {relics.map(relic => (
+                      <figure key={relic.id}>
+                        <ItemArtwork itemId={relic.id} title={relic.name} iconType={relic.iconType} />
+                        <figcaption>RELÍQUIA · {relic.name}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+
                   {/* Componentes Equipados */}
-                  <div className="space-y-2 p-3.5 rounded-xl bg-gothic-950/80 border border-gothic-border/60 text-xs mb-4">
+                  <div className="build-equipment-card__loadout">
                     <div className="flex items-center justify-between">
                       <span className="text-neutral-400 flex items-center gap-1.5">
                         <ThemeIcon name={weapon.iconType} className="w-3.5 h-3.5" />
@@ -201,8 +209,8 @@ export const BuildLibrary: React.FC<BuildLibraryProps> = ({
                   </div>
 
                   {/* Destaques Táticos */}
-                  <div className="mb-4">
-                    <span className="text-[11px] font-semibold text-gold-400 uppercase tracking-wider block mb-1">
+                  <div className="build-equipment-card__synergy">
+                    <span className="build-equipment-card__section-label">
                       Pontos Chave da Sinergia:
                     </span>
                     <ul className="text-[11px] text-neutral-400 space-y-0.5">
@@ -217,7 +225,7 @@ export const BuildLibrary: React.FC<BuildLibraryProps> = ({
                 </div>
 
                 {/* Base com Pontuação e Ações */}
-                <div className="pt-3 border-t border-gothic-border/60 flex items-center justify-between gap-3">
+                <div className="build-equipment-card__footer">
                   <div className="flex items-center gap-2">
                     <div className="text-center">
                       <span className="text-[10px] font-mono text-neutral-500 uppercase block">Score Heurístico</span>
@@ -259,7 +267,7 @@ export const BuildLibrary: React.FC<BuildLibraryProps> = ({
                     </button>
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
