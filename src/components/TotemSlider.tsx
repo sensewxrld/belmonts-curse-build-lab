@@ -64,6 +64,24 @@ export const TotemSlider: React.FC = () => {
     return () => slider.removeEventListener('wheel', handleWheel);
   }, [move]);
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const slider = sliderRef.current;
+      if (
+        document.visibilityState !== 'visible' ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        slider?.matches(':hover') ||
+        slider?.contains(document.activeElement)
+      ) {
+        return;
+      }
+
+      move(1);
+    }, 5000);
+
+    return () => window.clearInterval(timer);
+  }, [move]);
+
   return (
     <section
       ref={sliderRef}

@@ -652,6 +652,7 @@ html[data-theme='light'] {
 .totem-slider__tile--front {
   isolation: isolate;
   box-shadow: 0 35px 70px rgb(0 0 0 / .34);
+  animation: totem-card-float 5s ease-in-out infinite;
 }
 
 .totem-slider__tile--front::after {
@@ -663,7 +664,14 @@ html[data-theme='light'] {
   pointer-events: none;
 }
 
-.totem-slider__tile--front > img {
+.totem-slider__tile--front picture {
+  width: 100%;
+  height: 100%;
+  display: block;
+  animation: totem-art-drift 14s ease-in-out infinite alternate;
+}
+
+.totem-slider__tile--front img {
   width: 100%;
   height: 100%;
   display: block;
@@ -672,7 +680,7 @@ html[data-theme='light'] {
   transition: transform .8s var(--ease-out);
 }
 
-.totem-slider:hover .totem-slider__tile--front > img {
+.totem-slider:hover .totem-slider__tile--front img {
   transform: scale(1.035);
 }
 
@@ -1358,6 +1366,16 @@ html[data-theme='light'] .bg-gothic-950\/80 {
   to { opacity: 1; transform: translateY(0) rotateY(0) scale(1); }
 }
 
+@keyframes totem-card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes totem-art-drift {
+  from { transform: scale(1.035) translate3d(-.35%, -.35%, 0); }
+  to { transform: scale(1.055) translate3d(.35%, .35%, 0); }
+}
+
 @keyframes ambient-drift {
   from { transform: translate3d(-1.2%, -.5%, 0) scale(1); }
   to { transform: translate3d(1.2%, .8%, 0) scale(1.035); }
@@ -1702,8 +1720,14 @@ html[data-theme='light'] .bg-gothic-950\/80 {
   }
 
   .app-shell::after,
-  .boss-profile__vitality-line span {
+  .boss-profile__vitality-line span,
+  .totem-slider__tile--front,
+  .totem-slider__tile--front picture {
     animation: none !important;
+  }
+
+  .totem-slider__tile--front img {
+    transition-duration: .01ms !important;
   }
 }
 
@@ -2653,6 +2677,371 @@ html[data-theme='light'] .bg-gothic-950\/80 {
     linear-gradient(145deg, rgb(var(--deep-purple-rgb)), rgb(var(--page-rgb)));
 }
 
+.internal-page--relics .relic-library-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.internal-page--relics .relic-library-grid > .relic-equipment-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  grid-column: auto;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--lavender-rgb) / .26);
+  border-radius: 14px !important;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgb(var(--ultramarine-rgb) / .17), transparent 48%),
+    linear-gradient(145deg, rgb(var(--surface-rgb) / .98), rgb(var(--page-rgb) / .96));
+  box-shadow: 0 12px 28px rgb(0 0 0 / .17), inset 0 1px rgb(var(--line-rgb) / .07);
+}
+
+.internal-page--relics .relic-equipment-card::before {
+  position: absolute;
+  z-index: 1;
+  inset: 9px auto 9px 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgb(var(--mint-rgb) / .56), transparent);
+  content: '';
+  opacity: .48;
+  pointer-events: none;
+}
+
+.internal-page--relics .relic-equipment-card.is-midnight-bonus {
+  border-color: rgb(var(--ember-rgb) / .5);
+  background:
+    radial-gradient(ellipse at 8% 0%, rgb(var(--ember-rgb) / .13), transparent 48%),
+    linear-gradient(145deg, rgb(var(--surface-rgb) / .98), rgb(var(--page-rgb) / .96));
+}
+
+.internal-page--relics .relic-equipment-card > * {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.relic-equipment-card__art-trigger {
+  position: relative;
+  width: 100%;
+  display: block;
+  padding: 7px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--lavender-rgb) / .34);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 50% 52%, rgb(var(--mint-rgb) / .12), transparent 62%),
+    linear-gradient(150deg, rgb(var(--deep-purple-rgb)), rgb(var(--page-rgb)));
+  box-shadow: inset 0 0 0 1px rgb(var(--line-rgb) / .035);
+  cursor: zoom-in;
+  text-align: center;
+  transition: border-color .3s ease, box-shadow .3s ease, transform .4s var(--ease-out);
+}
+
+.relic-equipment-card__art-trigger:hover,
+.relic-equipment-card__art-trigger:focus-visible {
+  border-color: rgb(var(--mint-rgb) / .62);
+  box-shadow: inset 0 0 20px rgb(0 0 0 / .12), 0 0 20px rgb(var(--ultramarine-rgb) / .2);
+  transform: translateY(-2px);
+}
+
+.relic-equipment-card__art-index {
+  position: absolute;
+  z-index: 4;
+  top: 12px;
+  left: 12px;
+  color: rgb(var(--ivory-rgb) / .78);
+  font: 7px var(--font-metric);
+  letter-spacing: .12em;
+  pointer-events: none;
+}
+
+.internal-page--relics .relic-equipment-card__artwork {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  border-color: rgb(var(--line-rgb) / .16);
+  border-radius: 6px;
+  background:
+    radial-gradient(ellipse at 50% 62%, rgb(var(--mint-rgb) / .11), transparent 60%),
+    linear-gradient(145deg, rgb(var(--deep-purple-rgb)), rgb(var(--page-rgb)));
+}
+
+.relic-equipment-card__art-trigger:hover .relic-equipment-card__artwork.item-artwork--image.has-zoom-headroom img,
+.relic-equipment-card__art-trigger:focus-visible .relic-equipment-card__artwork.item-artwork--image.has-zoom-headroom img {
+  filter: brightness(1.08);
+  transform: scale(1.045) translate3d(
+    var(--parallax-x, 0px),
+    calc(var(--parallax-y, 0px) + var(--scroll-parallax-y, 0px) + var(--relic-float-y, 0px)),
+    0
+  );
+}
+
+.relic-equipment-card__art-hint {
+  position: absolute;
+  z-index: 4;
+  right: 9px;
+  bottom: 9px;
+  padding: 4px 6px;
+  border: 1px solid rgb(var(--line-rgb) / .16);
+  background: rgb(var(--page-rgb) / .76);
+  color: rgb(var(--mint-rgb));
+  font: 7px var(--font-metric);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.relic-equipment-card__art-trigger:hover .relic-equipment-card__art-hint,
+.relic-equipment-card__art-trigger:focus-visible .relic-equipment-card__art-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.relic-equipment-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.relic-equipment-card__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.relic-equipment-card__identity {
+  min-width: 0;
+}
+
+.relic-equipment-card__identity h3 {
+  margin: 0;
+  color: rgb(var(--text-rgb));
+  font: 500 17px/1.16 var(--font-display);
+  overflow-wrap: anywhere;
+}
+
+.relic-equipment-card__classification {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.relic-equipment-card__tier,
+.relic-equipment-card__edition {
+  padding: 3px 6px;
+  border: 1px solid rgb(var(--line-rgb) / .2);
+  border-radius: 999px;
+  color: rgb(var(--muted-rgb));
+  font: 7px var(--font-metric);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.relic-equipment-card__tier.is-epic {
+  border-color: rgb(var(--lavender-rgb) / .38);
+  color: rgb(var(--lavender-rgb));
+}
+
+.relic-equipment-card__tier.is-legendary,
+.relic-equipment-card__edition {
+  border-color: rgb(var(--ember-rgb) / .4);
+  color: rgb(var(--ember-rgb));
+}
+
+.relic-equipment-card__favorite {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(var(--line-rgb) / .16);
+  border-radius: 50%;
+  background: rgb(var(--page-rgb) / .5);
+  color: rgb(var(--muted-rgb));
+  transition: color .2s ease, border-color .2s ease, transform .25s var(--ease-out);
+}
+
+.relic-equipment-card__favorite:hover,
+.relic-equipment-card__favorite.is-favorite {
+  border-color: rgb(var(--ember-rgb) / .5);
+  color: rgb(var(--ember-rgb));
+}
+
+.relic-equipment-card__favorite:hover {
+  transform: scale(1.08);
+}
+
+.relic-equipment-card__favorite.is-favorite svg {
+  fill: currentColor;
+}
+
+.relic-equipment-card__effect {
+  display: -webkit-box;
+  min-height: 3.2em;
+  margin: 0;
+  overflow: hidden;
+  color: rgb(var(--text-rgb) / .78);
+  font: 10px/1.6 var(--font-body);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.relic-equipment-card__duration {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 7px 8px;
+  border: 1px solid rgb(var(--mint-rgb) / .2);
+  border-radius: 7px;
+  background: rgb(var(--mint-rgb) / .045);
+  color: rgb(var(--mint-rgb));
+  font: 8px/1.45 var(--font-metric);
+}
+
+.relic-equipment-card__duration svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.relic-equipment-card__details {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(var(--line-rgb) / .15);
+  color: rgb(var(--muted-rgb));
+  font: 9px/1.55 var(--font-body);
+}
+
+.relic-equipment-card__description {
+  margin: 0;
+  font-style: italic;
+}
+
+.relic-equipment-card__synergies span,
+.relic-equipment-card__location span {
+  display: block;
+  margin-bottom: 3px;
+  color: rgb(var(--mint-rgb));
+  font: 7px var(--font-metric);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.relic-equipment-card__synergies p,
+.relic-equipment-card__location p {
+  margin: 2px 0 0;
+}
+
+.relic-equipment-card__synergies strong {
+  color: rgb(var(--text-rgb) / .7);
+}
+
+.relic-equipment-card__location {
+  padding: 8px;
+  border: 1px solid rgb(var(--line-rgb) / .12);
+  border-radius: 7px;
+  background: rgb(var(--page-rgb) / .48);
+}
+
+.relic-equipment-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid rgb(var(--line-rgb) / .15);
+}
+
+.relic-equipment-card__details-toggle,
+.relic-equipment-card__equip {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 999px;
+  font: 8px var(--font-metric);
+  transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .25s var(--ease-out);
+}
+
+.relic-equipment-card__details-toggle {
+  padding: 0 7px;
+  color: rgb(var(--muted-rgb));
+}
+
+.relic-equipment-card__details-toggle:hover {
+  color: rgb(var(--text-rgb));
+}
+
+.relic-equipment-card__details-toggle svg {
+  transition: transform .25s var(--ease-out);
+}
+
+.relic-equipment-card__details-toggle svg.is-expanded {
+  transform: rotate(180deg);
+}
+
+.relic-equipment-card__equip {
+  padding: 0 10px;
+  border: 1px solid rgb(var(--lavender-rgb) / .28);
+  background: rgb(var(--ultramarine-rgb) / .18);
+  color: rgb(var(--text-rgb));
+  white-space: nowrap;
+}
+
+.relic-equipment-card__equip:hover:not(:disabled) {
+  border-color: rgb(var(--mint-rgb) / .52);
+  background: rgb(var(--mint-rgb) / .12);
+  color: rgb(var(--mint-rgb));
+  transform: translateY(-1px);
+}
+
+.relic-equipment-card__equip.is-equipped {
+  border-color: rgb(var(--mint-rgb) / .42);
+  background: rgb(var(--mint-rgb) / .16);
+  color: rgb(var(--mint-rgb));
+}
+
+.relic-equipment-card__equip:disabled {
+  border-color: rgb(var(--line-rgb) / .1);
+  background: rgb(var(--page-rgb) / .4);
+  color: rgb(var(--muted-rgb) / .65);
+  cursor: not-allowed;
+}
+
+@media (max-width: 1000px) {
+  .internal-page--relics .relic-library-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .internal-page--relics .relic-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
+  .internal-page--relics .relic-library-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .build-equipment-strip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -3363,6 +3752,18 @@ figure.item-artwork.item-artwork--unavailable figcaption {
     min-height: 180px;
     max-height: 218px;
     aspect-ratio: 3 / 2;
+  }
+}
+
+.internal-page--relics .relic-equipment-card .relic-equipment-card__artwork.item-artwork--image {
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 4 / 3;
+}
+
+@media (max-width: 460px) {
+  .internal-page--relics .relic-equipment-card .relic-equipment-card__artwork.item-artwork--image {
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -5530,6 +5931,721 @@ figure.item-artwork.item-artwork--unavailable figcaption {
   }
 
   .weapon-equipment-card.is-equipping::before {
+    animation: none;
+  }
+}
+
+.relic-vault {
+  display: grid;
+  gap: clamp(18px, 2.4vw, 30px);
+  padding: 8px 0 56px;
+}
+
+.relic-vault__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .72fr);
+  align-items: end;
+  gap: clamp(22px, 4vw, 56px);
+  padding: 4px 0 clamp(22px, 3vw, 34px);
+  border-bottom: 1px solid rgb(var(--line-rgb) / .2);
+}
+
+.relic-vault__intro-copy {
+  min-width: 0;
+}
+
+.relic-vault__kicker,
+.relic-vault__edition-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  color: rgb(var(--muted-rgb));
+  font: 600 9px var(--font-metric);
+  letter-spacing: .12em;
+}
+
+.relic-vault__kicker svg {
+  color: rgb(var(--mint-rgb));
+}
+
+.relic-vault__kicker i,
+.relic-vault__edition-kicker i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgb(var(--ember-rgb));
+}
+
+.relic-vault__intro h2 {
+  max-width: 760px;
+  margin: 18px 0 10px;
+  color: rgb(var(--text-rgb));
+  font: 500 clamp(2.2rem, 5vw, 4.8rem)/.96 var(--font-display);
+  letter-spacing: -.055em;
+}
+
+.relic-vault__intro h2 em {
+  color: rgb(var(--lavender-rgb));
+  font-weight: 500;
+}
+
+.relic-vault__intro-copy > p {
+  max-width: 520px;
+  margin: 0;
+  color: rgb(var(--muted-rgb));
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.relic-vault__collection-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  color: rgb(var(--muted-rgb));
+  font: 8px var(--font-metric);
+  letter-spacing: .09em;
+}
+
+.relic-vault__collection-count strong {
+  color: rgb(var(--mint-rgb));
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.relic-vault__loadout {
+  position: relative;
+  padding: 15px;
+  border: 1px solid rgb(var(--lavender-rgb) / .3);
+  border-radius: 13px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgb(var(--ultramarine-rgb) / .2), transparent 55%),
+    rgb(var(--surface-rgb) / .88);
+  box-shadow: 0 4px 0 rgb(var(--line-rgb) / .23);
+}
+
+.relic-vault__loadout-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgb(var(--muted-rgb));
+  font: 600 8px var(--font-metric);
+  letter-spacing: .12em;
+}
+
+.relic-vault__loadout-heading strong {
+  color: rgb(var(--mint-rgb));
+  font: 500 15px var(--font-metric);
+}
+
+.relic-vault__loadout-heading i {
+  padding: 0 2px;
+  color: rgb(var(--muted-rgb));
+  font-style: normal;
+}
+
+.relic-vault__slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.relic-vault__slot {
+  min-width: 0;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-content: space-between;
+  gap: 4px;
+  padding: 8px;
+  border: 1px dashed rgb(var(--line-rgb) / .28);
+  border-radius: 9px;
+  color: rgb(var(--muted-rgb) / .7);
+  transition: border-color .3s var(--ease-out), background .3s var(--ease-out), transform .35s var(--ease-out);
+}
+
+.relic-vault__slot.is-filled {
+  border-style: solid;
+  border-color: rgb(var(--mint-rgb) / .35);
+  background: rgb(var(--mint-rgb) / .045);
+  color: rgb(var(--text-rgb));
+}
+
+.relic-vault__slot-number {
+  font: 8px var(--font-metric);
+  letter-spacing: .08em;
+}
+
+.relic-vault__slot-mark {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  place-items: center;
+  align-self: center;
+  border: 1px solid rgb(var(--line-rgb) / .24);
+  border-radius: 50%;
+  color: rgb(var(--muted-rgb));
+  font: 500 12px var(--font-display);
+}
+
+.relic-vault__slot.is-filled .relic-vault__slot-mark {
+  border-color: rgb(var(--mint-rgb) / .4);
+  background: rgb(var(--mint-rgb) / .11);
+  color: rgb(var(--mint-rgb));
+}
+
+.relic-vault__slot-name {
+  min-width: 0;
+  align-self: end;
+  overflow: hidden;
+  font: 7px var(--font-metric);
+  letter-spacing: .04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.relic-vault__loadout-note {
+  display: block;
+  margin-top: 10px;
+  color: rgb(var(--muted-rgb) / .8);
+  font: 7px var(--font-metric);
+  letter-spacing: .08em;
+}
+
+.relic-vault__edition {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 20px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--ember-rgb) / .48);
+  border-radius: 13px;
+  background:
+    radial-gradient(ellipse at 8% 50%, rgb(var(--ember-rgb) / .14), transparent 40%),
+    linear-gradient(110deg, rgb(var(--surface-rgb) / .96), rgb(var(--page-rgb) / .96));
+  box-shadow: 0 4px 0 rgb(var(--ember-rgb) / .16);
+  transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out);
+}
+
+.relic-vault__edition::after {
+  position: absolute;
+  z-index: -1;
+  top: -50%;
+  bottom: -50%;
+  left: -45%;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, rgb(var(--ivory-rgb) / .09), transparent);
+  content: '';
+  transform: rotate(18deg);
+  transition: left .65s var(--ease-out);
+}
+
+.relic-vault__edition:hover {
+  box-shadow: 0 7px 0 rgb(var(--ember-rgb) / .2);
+  transform: translateY(-2px);
+}
+
+.relic-vault__edition:hover::after {
+  left: 125%;
+}
+
+.relic-vault__edition-mark {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(var(--ember-rgb) / .4);
+  border-radius: 50%;
+  background: rgb(var(--ember-rgb) / .09);
+  color: rgb(var(--ember-rgb));
+}
+
+.relic-vault__edition-copy {
+  min-width: 0;
+}
+
+.relic-vault__edition-kicker {
+  gap: 7px;
+  color: rgb(var(--ember-rgb));
+  font-size: 7px;
+}
+
+.relic-vault__edition-copy h3 {
+  margin: 7px 0 4px;
+  color: rgb(var(--text-rgb));
+  font: 500 clamp(16px, 2vw, 21px)/1.2 var(--font-display);
+}
+
+.relic-vault__edition-copy h3 em {
+  color: rgb(var(--muted-rgb));
+  font-size: .78em;
+  font-weight: 400;
+}
+
+.relic-vault__edition-copy p {
+  max-width: 760px;
+  margin: 0;
+  color: rgb(var(--muted-rgb));
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.relic-vault__edition-seal {
+  padding-left: 17px;
+  border-left: 1px solid rgb(var(--ember-rgb) / .25);
+  color: rgb(var(--muted-rgb));
+  font: 7px/1.65 var(--font-metric);
+  letter-spacing: .1em;
+  text-align: right;
+}
+
+.relic-vault__edition-seal strong {
+  color: rgb(var(--ember-rgb));
+  font-weight: 600;
+}
+
+.relic-vault__filters {
+  display: grid;
+  gap: 13px;
+  padding: 14px;
+  border: 1px solid rgb(var(--lavender-rgb) / .32);
+  border-radius: 14px;
+  background: rgb(var(--surface-rgb) / .84);
+  box-shadow: 0 4px 0 rgb(var(--line-rgb) / .18);
+}
+
+.relic-vault__filter-top,
+.relic-vault__filter-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.relic-vault__search {
+  min-width: 0;
+  min-height: 41px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 1px solid rgb(var(--line-rgb) / .22);
+  border-radius: 9px;
+  background: rgb(var(--page-rgb) / .75);
+  color: rgb(var(--muted-rgb));
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.relic-vault__search:focus-within {
+  border-color: rgb(var(--mint-rgb) / .6);
+  box-shadow: 0 0 0 3px rgb(var(--mint-rgb) / .08);
+}
+
+.relic-vault__search input {
+  width: 100%;
+  min-width: 0;
+  border: 0 !important;
+  outline: 0;
+  background: transparent !important;
+  color: rgb(var(--text-rgb));
+  font-size: 10px;
+}
+
+.relic-vault__search input::placeholder {
+  color: rgb(var(--muted-rgb) / .78);
+}
+
+.relic-vault__search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.relic-vault__search > button {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgb(var(--muted-rgb));
+  font-size: 19px;
+  line-height: 1;
+  transition: background .2s ease, color .2s ease;
+}
+
+.relic-vault__search > button:hover {
+  background: rgb(var(--mint-rgb) / .13);
+  color: rgb(var(--mint-rgb));
+}
+
+.relic-vault__unlocked {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgb(var(--muted-rgb));
+  cursor: pointer;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.relic-vault__unlocked input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.relic-vault__checkbox {
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(var(--line-rgb) / .3);
+  border-radius: 4px;
+  color: transparent;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.relic-vault__unlocked input:checked + .relic-vault__checkbox {
+  border-color: rgb(var(--mint-rgb));
+  background: rgb(var(--mint-rgb));
+  color: rgb(var(--page-rgb));
+}
+
+.relic-vault__unlocked input:focus-visible + .relic-vault__checkbox {
+  outline: 2px solid rgb(var(--mint-rgb));
+  outline-offset: 3px;
+}
+
+.relic-vault__unlocked strong {
+  color: rgb(var(--mint-rgb));
+  font: 600 9px var(--font-metric);
+}
+
+.relic-vault__filter-bottom {
+  flex-wrap: wrap;
+}
+
+.relic-vault__filter-label,
+.relic-vault__results > span {
+  flex: 0 0 auto;
+  color: rgb(var(--muted-rgb));
+  font: 600 7px var(--font-metric);
+  letter-spacing: .1em;
+}
+
+.relic-vault__tiers {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.relic-vault__tier {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgb(var(--page-rgb) / .62);
+  color: rgb(var(--muted-rgb));
+  font-size: 9px;
+  white-space: nowrap;
+  transition: transform .25s var(--ease-out), border-color .25s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+.relic-vault__tier:hover {
+  border-color: rgb(var(--lavender-rgb) / .35);
+  color: rgb(var(--text-rgb));
+  transform: translateY(-2px);
+}
+
+.relic-vault__tier:active {
+  transform: translateY(1px) scale(.98);
+}
+
+.relic-vault__tier.is-selected {
+  border-color: rgb(var(--mint-rgb) / .55);
+  background: rgb(var(--mint-rgb) / .13);
+  box-shadow: 0 2px 0 rgb(var(--mint-rgb) / .12);
+  color: rgb(var(--mint-rgb));
+}
+
+.relic-vault__tier small {
+  color: inherit;
+  font: 7px var(--font-metric);
+  opacity: .7;
+}
+
+.relic-vault__results {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.relic-vault__results strong {
+  color: rgb(var(--mint-rgb));
+  font: 500 14px var(--font-metric);
+}
+
+.relic-vault__results > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+  padding: 5px 7px;
+  border: 1px solid rgb(var(--line-rgb) / .16);
+  border-radius: 999px;
+  background: transparent;
+  color: rgb(var(--muted-rgb));
+  font: 7px var(--font-metric);
+  letter-spacing: .04em;
+  transition: border-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+.relic-vault__results > button:hover {
+  border-color: rgb(var(--mint-rgb) / .5);
+  color: rgb(var(--mint-rgb));
+  transform: translateY(-1px);
+}
+
+.relic-vault .relic-library-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.relic-vault .relic-library-grid > .relic-equipment-card {
+  border: 1px solid rgb(var(--lavender-rgb) / .3);
+  border-radius: 13px !important;
+  background:
+    linear-gradient(145deg, rgb(var(--surface-rgb) / .98), rgb(var(--page-rgb) / .96));
+  box-shadow: 0 4px 0 rgb(var(--line-rgb) / .24), 0 15px 34px rgb(0 0 0 / .15);
+  transition: border-color .35s ease, box-shadow .35s var(--ease-out), opacity .35s ease, filter .35s ease;
+}
+
+.relic-vault .relic-library-grid > .relic-equipment-card::after {
+  background: radial-gradient(
+    310px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgb(var(--mint-rgb) / .12),
+    transparent 70%
+  );
+}
+
+.relic-vault .relic-library-grid > .relic-equipment-card:hover,
+.relic-vault .relic-library-grid > .relic-equipment-card:focus-within {
+  border-color: rgb(var(--mint-rgb) / .65);
+  box-shadow: 0 8px 0 rgb(var(--mint-rgb) / .13), 0 24px 44px rgb(0 0 0 / .24);
+}
+
+.relic-vault .relic-library-grid > .relic-equipment-card.is-midnight-bonus {
+  border-color: rgb(var(--ember-rgb) / .5);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgb(var(--ember-rgb) / .11), transparent 45%),
+    linear-gradient(145deg, rgb(var(--surface-rgb) / .98), rgb(var(--page-rgb) / .96));
+}
+
+.relic-vault .relic-library-grid > .relic-equipment-card.is-midnight-bonus:hover,
+.relic-vault .relic-library-grid > .relic-equipment-card.is-midnight-bonus:focus-within {
+  border-color: rgb(var(--ember-rgb) / .78);
+  box-shadow: 0 8px 0 rgb(var(--ember-rgb) / .15), 0 24px 44px rgb(0 0 0 / .24);
+}
+
+.relic-vault .relic-equipment-card__art-trigger:active,
+.relic-vault .relic-equipment-card__favorite:active,
+.relic-vault .relic-equipment-card__details-toggle:active,
+.relic-vault .relic-equipment-card__equip:active {
+  transform: translateY(1px) scale(.98);
+}
+
+.relic-vault .relic-equipment-card__favorite.is-favorite {
+  background: rgb(var(--ember-rgb) / .1);
+}
+
+.relic-vault .relic-equipment-card__favorite.is-favorite svg {
+  animation: relic-favorite-pop .35s var(--ease-out);
+}
+
+.relic-vault .relic-equipment-card__details {
+  transform-origin: top;
+  animation: relic-details-open .28s var(--ease-out) both;
+}
+
+.relic-vault__empty {
+  min-height: 220px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 9px;
+  padding: 28px;
+  border: 1px dashed rgb(var(--lavender-rgb) / .4);
+  border-radius: 14px;
+  background: rgb(var(--surface-rgb) / .55);
+  color: rgb(var(--muted-rgb));
+  text-align: center;
+}
+
+.relic-vault__empty > svg {
+  color: rgb(var(--mint-rgb));
+}
+
+.relic-vault__empty strong {
+  color: rgb(var(--text-rgb));
+  font: 500 20px var(--font-display);
+}
+
+.relic-vault__empty span {
+  font-size: 10px;
+}
+
+.relic-vault__empty button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgb(var(--mint-rgb) / .42);
+  border-radius: 999px;
+  background: rgb(var(--mint-rgb) / .1);
+  color: rgb(var(--mint-rgb));
+  font: 8px var(--font-metric);
+  transition: transform .2s ease, background .2s ease;
+}
+
+.relic-vault__empty button:hover {
+  background: rgb(var(--mint-rgb) / .18);
+  transform: translateY(-2px);
+}
+
+@keyframes relic-details-open {
+  from { opacity: 0; transform: translateY(7px) scaleY(.97); }
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+@keyframes relic-favorite-pop {
+  45% { transform: scale(1.35) rotate(-10deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .relic-vault .relic-library-grid:has(.relic-equipment-card:hover) > .relic-equipment-card:not(:hover),
+  .relic-vault .relic-library-grid:has(.relic-equipment-card:focus-within) > .relic-equipment-card:not(:focus-within) {
+    filter: saturate(.72);
+    opacity: .62;
+  }
+}
+
+@media (max-width: 1000px) {
+  .relic-vault .relic-library-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .relic-vault__intro {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .relic-vault__loadout {
+    max-width: none;
+  }
+
+  .relic-vault .relic-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .relic-vault__filter-top {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .relic-vault__unlocked {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .relic-vault {
+    gap: 17px;
+  }
+
+  .relic-vault__intro h2 {
+    font-size: clamp(2.1rem, 10vw, 3.2rem);
+  }
+
+  .relic-vault__edition {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 11px;
+    padding: 14px;
+  }
+
+  .relic-vault__edition-mark {
+    width: 36px;
+    height: 36px;
+  }
+
+  .relic-vault__edition-mark svg {
+    width: 19px;
+  }
+
+  .relic-vault__edition-seal {
+    display: none;
+  }
+
+  .relic-vault__filter-bottom {
+    align-items: flex-start;
+  }
+
+  .relic-vault__tiers {
+    order: 2;
+    flex-basis: 100%;
+  }
+
+  .relic-vault__results {
+    margin-left: auto;
+  }
+
+  .relic-vault .relic-library-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .relic-vault__slot,
+  .relic-vault__edition,
+  .relic-vault__edition::after,
+  .relic-vault__search,
+  .relic-vault__checkbox,
+  .relic-vault__tier,
+  .relic-vault__results > button,
+  .relic-vault .relic-library-grid > .relic-equipment-card,
+  .relic-vault .relic-equipment-card__art-trigger,
+  .relic-vault .relic-equipment-card__favorite,
+  .relic-vault .relic-equipment-card__details-toggle,
+  .relic-vault .relic-equipment-card__equip {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+
+  .relic-vault .relic-equipment-card__favorite.is-favorite svg {
     animation: none;
   }
 }
