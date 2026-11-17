@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { ArrowDownRight, ArrowRight, Search, Sparkles } from 'lucide-react';
 import { ARCANAS_DATA } from '../data/arcanas';
 import { BOSSES_DATA } from '../data/bosses';
+import { BOSS_ENCOUNTERS } from '../data/bossLocations';
 import { BUILDS_DATA } from '../data/builds';
 import { RELICS_DATA } from '../data/relics';
 import { WEAPONS_DATA } from '../data/weapons';
@@ -147,7 +148,7 @@ export const HeroDashboard: React.FC<HeroDashboardProps> = ({
         <div><span>28</span><small>armas catalogadas</small></div>
         <div><span>16</span><small>cartas de Arcana</small></div>
         <div><span>17</span><small>relíquias registradas</small></div>
-        <div><span>13</span><small>confrontos mapeados</small></div>
+        <div><span>{BOSS_ENCOUNTERS.length}</span><small>encontros mapeados</small></div>
         <button type="button" onClick={() => onNavigateTab('sources')}>Ver metodologia <ArrowRight size={15} /></button>
       </section>
 

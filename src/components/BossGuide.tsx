@@ -20,6 +20,8 @@ import { WEAPONS_DATA } from '../data/weapons';
 import { ARCANAS_DATA } from '../data/arcanas';
 import { RELICS_DATA } from '../data/relics';
 import { ItemArtwork } from './ItemArtwork';
+import { BossLocationMap } from './BossLocationMap';
+import { ASSET_MANIFEST_BY_ID } from '../data/assetManifest';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -355,6 +357,7 @@ export const BossGuide: React.FC<BossGuideProps> = ({ onLoadBossCounterBuild }) 
           <div className="boss-selector-list space-y-1.5 max-h-[620px] overflow-x-hidden overflow-y-auto pr-1">
             {filteredBosses.map((boss) => {
               const isSelected = boss.id === currentBoss.id;
+              const portrait = ASSET_MANIFEST_BY_ID[boss.id];
               return (
                 <button
                   type="button"
@@ -368,11 +371,11 @@ export const BossGuide: React.FC<BossGuideProps> = ({ onLoadBossCounterBuild }) 
                   }`}
                 >
                   <div className="boss-selector__identity min-w-0 flex items-center gap-3">
-                    <div className={`w-9 h-9 shrink-0 rounded-lg flex items-center justify-center font-serif font-bold text-sm ${
-                      isSelected ? 'bg-gold-500 text-gothic-950' : 'bg-gothic-800 text-neutral-400'
-                    }`}>
-                      {boss.name.charAt(0)}
-                    </div>
+                    <span className={`boss-selector__portrait${isSelected ? ' is-selected' : ''}`} aria-hidden="true">
+                      {portrait?.image
+                        ? <img src={portrait.image} alt="" loading="lazy" />
+                        : boss.name.charAt(0)}
+                    </span>
                     <div className="boss-selector__copy min-w-0">
                       <h4
                         className={`boss-selector__name font-serif text-xs font-bold ${isSelected ? 'text-gold-200' : 'text-neutral-200'}`}
@@ -402,6 +405,8 @@ export const BossGuide: React.FC<BossGuideProps> = ({ onLoadBossCounterBuild }) 
             className="boss-profile"
             aria-labelledby="boss-profile-title"
           >
+            <BossLocationMap key={currentBoss.id} bossId={currentBoss.id} />
+
             <header className="boss-profile__hero">
               <div className="boss-profile__backdrop" aria-hidden="true" />
               <div className="boss-profile__art-stage">
@@ -589,6 +594,7 @@ export const BossGuide: React.FC<BossGuideProps> = ({ onLoadBossCounterBuild }) 
           </article>
         </div>
       </div>
+
     </div>
   );
 };

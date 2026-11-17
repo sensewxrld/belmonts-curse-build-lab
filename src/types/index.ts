@@ -112,7 +112,7 @@ export interface SourceItem {
   name: string;
   url: string;
   category: 'Oficial' | 'Guias de armas e relíquias' | 'Guias de Arcanos e chefes';
-  reliabilityLevel: 'Oficial' | 'Verificada em guias' | 'Teoria de build';
+  reliabilityLevel: 'Oficial' | 'Verificada em guias' | 'Teoria de build' | 'Não verificada';
   verificationDate: string;
   gameVersion: string;
   notes: string;

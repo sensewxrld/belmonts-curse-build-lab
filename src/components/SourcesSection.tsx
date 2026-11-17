@@ -20,7 +20,7 @@ export const SourcesSection: React.FC = () => {
   const [search, setSearch] = useState<string>('');
 
   const categories = ['Todas', 'Oficial', 'Guias de armas e relíquias', 'Guias de Arcanos e chefes'];
-  const reliabilityLevels = ['Todos', 'Oficial', 'Verificada em guias', 'Teoria de build'];
+  const reliabilityLevels = ['Todos', 'Oficial', 'Verificada em guias', 'Teoria de build', 'Não verificada'];
 
   const filteredSources = SOURCES_DATA.filter(src => {
     const matchesCategory = filterCategory === 'Todas' || src.category === filterCategory;
@@ -166,6 +166,7 @@ export const SourcesSection: React.FC = () => {
                 <span className={`pill-badge text-[10px] py-0.5 px-2.5 ${
                   src.reliabilityLevel === 'Oficial' ? 'bg-emerald-950 border border-emerald-600 text-emerald-300' :
                   src.reliabilityLevel === 'Verificada em guias' ? 'bg-blue-950 border border-blue-600 text-blue-300' :
+                  src.reliabilityLevel === 'Não verificada' ? 'bg-neutral-900 border border-neutral-600 text-neutral-300' :
                   'bg-purple-950 border border-purple-600 text-purple-300'
                 }`}>
                   {src.reliabilityLevel}

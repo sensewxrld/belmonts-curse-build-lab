@@ -20,6 +20,7 @@ import { WEAPONS_DATA } from './data/weapons';
 import { ARCANAS_DATA } from './data/arcanas';
 import { RELICS_DATA } from './data/relics';
 import { BOSSES_DATA } from './data/bosses';
+import { BOSS_ENCOUNTERS } from './data/bossLocations';
 import { BUILDS_DATA } from './data/builds';
 import { InventoryModal } from './components/InventoryModal';
 import { ExportImportModal } from './components/ExportImportModal';
@@ -80,7 +81,7 @@ const INTERNAL_PAGE_HEROES: Record<string, PageHeroProps> = {
     title: 'CONFRONTE',
     emphasis: 'A ESCURIDÃO.',
     description: 'Estude padrões, fraquezas e loadouts recomendados antes de encarar os grandes adversários.',
-    count: `${BOSSES_DATA.length} dossiês de chefes`,
+    count: `${BOSS_ENCOUNTERS.length} encontros · ${new Set(BOSS_ENCOUNTERS.map(encounter => encounter.bossId)).size} chefes únicos`,
     featuredItem: { id: 'medusa', name: 'Medusa', iconType: 'gaze' }
   },
   planner: {

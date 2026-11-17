@@ -175,5 +175,45 @@ export const SOURCES_DATA: SourceItem[] = [
     verificationDate: 'Novembro de 2026',
     gameVersion: 'v1.1.4',
     notes: 'Estratégia dedicada ao confronto com Medusa. Recomenda explicitamente a Lança (Chauve-Souris) e Holy Cross (Sacred Cross) com Raven\'s Feather para punição aérea segura.'
+  },
+  {
+    id: 'src-18',
+    name: 'All Things How — Boss Order and Where to Find Each One',
+    url: 'https://allthings.how/castlevania-belmont-s-curse-boss-order-and-where-to-find-each-one/',
+    category: 'Guias de Arcanos e chefes',
+    reliabilityLevel: 'Verificada em guias',
+    verificationDate: 'Outubro de 2026',
+    gameVersion: 'Não especificada',
+    notes: 'Referência para ordem de progressão, rotas, requisitos e recompensas dos encontros. Relata 14 chefes únicos e 18 encontros.'
+  },
+  {
+    id: 'src-19',
+    name: 'All Things How — Boss Interactive Map',
+    url: 'https://allthings.how/castlevania-belmonts-curse/map/bosses/',
+    category: 'Guias de Arcanos e chefes',
+    reliabilityLevel: 'Verificada em guias',
+    verificationDate: 'Outubro de 2026',
+    gameVersion: 'Não especificada',
+    notes: 'Referência para região, subárea e Mirror of Life mais próximo. Publica 19 marcadores de arena, contagem diferente da lista de encontros.'
+  },
+  {
+    id: 'src-20',
+    name: 'Belmont’s Curse Atlas — Bosses',
+    url: 'https://belmontscursemap.com/bosses/',
+    category: 'Guias de Arcanos e chefes',
+    reliabilityLevel: 'Verificada em guias',
+    verificationDate: 'Outubro de 2026',
+    gameVersion: 'Não especificada',
+    notes: 'Referência complementar para aquisição e início de confrontos; usada para confrontar informações individuais.'
+  },
+  {
+    id: 'src-21',
+    name: 'Almanauts — Interactive Map',
+    url: 'https://almanauts.com/belmontscurse/map/',
+    category: 'Guias de Arcanos e chefes',
+    reliabilityLevel: 'Não verificada',
+    verificationDate: 'Não validada',
+    gameVersion: 'Não especificada',
+    notes: 'Indisponível durante a validação (HTTP 410); não utilizada para atribuir coordenadas, rotas ou posições.'
   }
 ];
